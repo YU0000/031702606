@@ -46,6 +46,47 @@ class Addressbook:
         print(self.road_num)
         print(self.building)
 
+def search_add(addressbook,single_address):
+    seg_list = list(jieba.cut(single_address, cut_all=False))
+    for eachline in range(len(seg_list)):
+        x = seg_list[eachline]
+        if (u'省' in seg_list[eachline] or u'自治区' in seg_list[eachline]):
+            addressbook.province = seg_list[eachline]
+        elif (
+                u'浙江' in x or u'安徽' in x or u'福建' in x or u'江西' in x or u'广东' in x or u'湖南' in x or u'海南' in x or u'河南' in x or u'湖北' in x or u'河北' in x or u'山西' in x or u'青海' in x or u'陕西' in x or u'甘肃' in x or u'四川' in x or u'贵州' in x or u'云南' in x or u'辽宁' in x or u'吉林' in x or u'黑龙江' in x):
+            addressbook.province = seg_list[eachline] + '省'
+        elif (u'广西' in x or u'内蒙古' in x or u'宁夏' in x or u'新疆' in x or u'西藏' in x):
+            addressbook.province = seg_list[eachline] + '自治区'
+        elif (u'地区' in seg_list[eachline] or u'自治州' in seg_list[eachline] or u'盟' in seg_list[eachline]):
+            addressbook.city = seg_list[eachline]
+        elif (u'矿区' in seg_list[eachline] or u'自治县' in seg_list[eachline] or u'自治旗' in seg_list[eachline]):
+            addressbook.district = seg_list[eachline]
+        elif (u'市' in seg_list[eachline]):
+            if (u'天津' in seg_list[eachline]):
+                addressbook.city = seg_list[eachline]
+                addressbook.province = "天津"
+            elif (u'北京' in seg_list[eachline]):
+                addressbook.city = seg_list[eachline]
+                addressbook.province = "北京"
+            elif (u'重庆' in seg_list[eachline]):
+                addressbook.city = seg_list[eachline]
+                addressbook.province = "重庆"
+            elif (u'上海' in seg_list[eachline]):
+                addressbook.city = seg_list[eachline]
+                addressbook.province = "上海"
+            else:
+                if (addressbook.city != []):
+                    addressbook.city = seg_list[eachline]
+                else:
+                    addressbook.district = seg_list[eachline]
+        elif (u'县' in seg_list[eachline] or u'区' in seg_list[eachline]):
+            addressbook.district = seg_list[eachline]
+        elif (u'街道' in x or u'镇' in x or u'乡' in x or u'路' in x or u'巷' in x or u'街' in x):
+            addressbook.street = seg_list[eachline]
+        single_address = re.sub(seg_list[eachline], '', single_address)
+        if (addressbook.district != ""):
+            break
+    return addressbook
 # def json_output(text):
 
 addressbook = Addressbook('', '', '', '', '', '', '', '', '')
@@ -70,45 +111,45 @@ for eachline in range(len(seg_list)):
 single_address = re.sub('^\d+\!+[\u4e00-\u9fa5]+\,','', single_address)
 single_address = re.sub('\.','', single_address)
 
-seg_list = list(jieba.cut(single_address, cut_all=False))
 
-for eachline in range(len(seg_list)):
-    x=seg_list[eachline]
-    if(u'省'in seg_list[eachline] or u'自治区' in seg_list[eachline]):
-        addressbook.province=seg_list[eachline]
-    elif(u'浙江' in x or u'安徽' in x or u'福建' in x or u'江西' in x or u'广东' in x or u'湖南' in x or u'海南' in x or u'河南' in x or u'湖北' in x or u'河北' in x or u'山西' in x or u'青海' in x or u'陕西' in x or u'甘肃' in x or u'四川' in x or u'贵州' in x or u'云南' in x or u'辽宁' in x or u'吉林' in x or u'黑龙江' in x):
-        addressbook.province = seg_list[eachline]+'省'
-    elif(u'广西' in x or u'内蒙古' in x or u'宁夏' in x or u'新疆' in x or u'西藏' in x):
-        addressbook.province = seg_list[eachline] + '自治区'
-    elif (u'地区' in seg_list[eachline] or u'自治州' in seg_list[eachline] or u'盟' in seg_list[eachline]):
-        addressbook.city=seg_list[eachline]
-    elif(u'矿区' in seg_list[eachline] or u'自治县' in seg_list[eachline] or u'自治旗' in seg_list[eachline]):
-        addressbook.district=seg_list[eachline]
-    elif(u'市' in seg_list[eachline]):
-        if (u'天津' in seg_list[eachline]):
-            addressbook.city=seg_list[eachline]
-            addressbook.province="天津"
-        elif(u'北京' in seg_list[eachline]):
-            addressbook.city = seg_list[eachline]
-            addressbook.province = "北京"
-        elif(u'重庆' in seg_list[eachline]):
-            addressbook.city = seg_list[eachline]
-            addressbook.province = "重庆"
-        elif(u'上海' in seg_list[eachline]):
-            addressbook.city = seg_list[eachline]
-            addressbook.province = "上海"
-        else:
-            if(addressbook.city != []):
-                addressbook.city = seg_list[eachline]
-            else:
-                addressbook.district = seg_list[eachline]
-    elif(u'县' in seg_list[eachline] or u'区' in seg_list[eachline]):
-        addressbook.district = seg_list[eachline]
-    elif(u'街道' in x or u'镇' in x or u'乡' in x or u'路' in x or u'巷' in x or u'街' in x):
-        addressbook.street = seg_list[eachline]
-    single_address = re.sub(seg_list[eachline], '', single_address)
-    if(addressbook.district != ""):
-        break
+addressbook=search_add(addressbook,single_address)
+# for eachline in range(len(seg_list)):
+#     x=seg_list[eachline]
+#     if(u'省'in seg_list[eachline] or u'自治区' in seg_list[eachline]):
+#         addressbook.province=seg_list[eachline]
+#     elif(u'浙江' in x or u'安徽' in x or u'福建' in x or u'江西' in x or u'广东' in x or u'湖南' in x or u'海南' in x or u'河南' in x or u'湖北' in x or u'河北' in x or u'山西' in x or u'青海' in x or u'陕西' in x or u'甘肃' in x or u'四川' in x or u'贵州' in x or u'云南' in x or u'辽宁' in x or u'吉林' in x or u'黑龙江' in x):
+#         addressbook.province = seg_list[eachline]+'省'
+#     elif(u'广西' in x or u'内蒙古' in x or u'宁夏' in x or u'新疆' in x or u'西藏' in x):
+#         addressbook.province = seg_list[eachline] + '自治区'
+#     elif (u'地区' in seg_list[eachline] or u'自治州' in seg_list[eachline] or u'盟' in seg_list[eachline]):
+#         addressbook.city=seg_list[eachline]
+#     elif(u'矿区' in seg_list[eachline] or u'自治县' in seg_list[eachline] or u'自治旗' in seg_list[eachline]):
+#         addressbook.district=seg_list[eachline]
+#     elif(u'市' in seg_list[eachline]):
+#         if (u'天津' in seg_list[eachline]):
+#             addressbook.city=seg_list[eachline]
+#             addressbook.province="天津"
+#         elif(u'北京' in seg_list[eachline]):
+#             addressbook.city = seg_list[eachline]
+#             addressbook.province = "北京"
+#         elif(u'重庆' in seg_list[eachline]):
+#             addressbook.city = seg_list[eachline]
+#             addressbook.province = "重庆"
+#         elif(u'上海' in seg_list[eachline]):
+#             addressbook.city = seg_list[eachline]
+#             addressbook.province = "上海"
+#         else:
+#             if(addressbook.city != []):
+#                 addressbook.city = seg_list[eachline]
+#             else:
+#                 addressbook.district = seg_list[eachline]
+#     elif(u'县' in seg_list[eachline] or u'区' in seg_list[eachline]):
+#         addressbook.district = seg_list[eachline]
+#     elif(u'街道' in x or u'镇' in x or u'乡' in x or u'路' in x or u'巷' in x or u'街' in x):
+#         addressbook.street = seg_list[eachline]
+#     single_address = re.sub(seg_list[eachline], '', single_address)
+#     if(addressbook.district != ""):
+#         break
 
 
 addressbook_json = json.dumps(addressbook.__dict__)
