@@ -150,7 +150,55 @@ addressbook=search_add(addressbook,single_address)
 #     single_address = re.sub(seg_list[eachline], '', single_address)
 #     if(addressbook.district != ""):
 #         break
+if(kind == '1'):
+    addr=[addressbook.province,
+        addressbook.city,
+        addressbook.district,
+        addressbook.street,
+        addressbook.building]
+    # data_json = json.dumps(addr.__dict__,ensure_ascii=False)
 
+    data = {
+    '姓名':addressbook.name,
+    '电话':addressbook.tele_num,
+    '地址':addr
+    }
 
-addressbook_json = json.dumps(addressbook.__dict__)
-print('addressbook_json',addressbook_json)
+    data_json = json.dumps(data,ensure_ascii=False)
+    print(data_json)
+if(kind == '2'):
+    addr = [addressbook.province,
+            addressbook.city,
+            addressbook.district,
+            addressbook.street,
+            addressbook.road,
+            addressbook.road_num,
+            addressbook.building]
+    # data_json = json.dumps(addr.__dict__,ensure_ascii=False)
+
+    data = {
+        '姓名': addressbook.name,
+        '电话': addressbook.tele_num,
+        '地址': addr
+    }
+
+    data_json = json.dumps(data, ensure_ascii=False)
+    print(data_json)
+if(kind == '3'):
+    addr = [addressbook.province,
+            addressbook.city,
+            addressbook.district,
+            addressbook.street,
+            addressbook.road,
+            addressbook.road_num,
+            addressbook.building]
+    # data_json = json.dumps(addr.__dict__,ensure_ascii=False)
+
+    data = {
+        '姓名': addressbook.name,
+        '电话': addressbook.tele_num,
+        '地址': addr
+    }
+
+    data_json = json.dumps(data, ensure_ascii=False)
+    print(data_json)
