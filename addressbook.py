@@ -69,9 +69,9 @@ for eachline in range(len(seg_list)):
 
 single_address = re.sub('^\d+\!+[\u4e00-\u9fa5]+\,','', single_address)
 single_address = re.sub('\.','', single_address)
-print(single_address)
+
 seg_list = list(jieba.cut(single_address, cut_all=False))
-print(seg_list)
+
 for eachline in range(len(seg_list)):
     x=seg_list[eachline]
     if(u'省'in seg_list[eachline] or u'自治区' in seg_list[eachline]):
