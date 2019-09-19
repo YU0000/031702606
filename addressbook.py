@@ -160,7 +160,7 @@ if(kind == '1'):
 
     data = {
     '姓名':addressbook.name,
-    '电话':addressbook.tele_num,
+    '手机':addressbook.tele_num,
     '地址':addr
     }
 
@@ -178,7 +178,7 @@ if(kind == '2'):
 
     data = {
         '姓名': addressbook.name,
-        '电话': addressbook.tele_num,
+        '手机': addressbook.tele_num,
         '地址': addr
     }
 
@@ -196,7 +196,7 @@ if(kind == '3'):
 
     data = {
         '姓名': addressbook.name,
-        '电话': addressbook.tele_num,
+        '手机': addressbook.tele_num,
         '地址': addr
     }
 
