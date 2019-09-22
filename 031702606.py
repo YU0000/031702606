@@ -98,7 +98,7 @@ single_address = re.sub('1\d{10}', '', single_address)
 seg_list = list(jieba.cut(single_address,cut_all=False))
 
 for eachline in range(len(seg_list)):
-    seg_list[eachline]
+    #seg_list[eachline]
     if (seg_list[eachline] == '1' or seg_list[eachline] == '2' or seg_list[eachline] == '3'):
         kind = seg_list[eachline]
         continue
